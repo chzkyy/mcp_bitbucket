@@ -1,0 +1,31 @@
+{
+  "name": "mcp_bitbucket",
+  "version": "1.0.1",
+  "description": "Bitbucket MCP Server for Claude - Read repositories and source code",
+  "main": "dist/index.js",
+  "bin": {
+    "bitbucket-mcp-server": "dist/index.js"
+  },
+  "scripts": {
+    "build": "tsc",
+    "start": "node dist/index.js",
+    "dev": "tsc && node dist/index.js"
+  },
+  "keywords": [
+    "mcp",
+    "bitbucket",
+    "claude",
+    "model-context-protocol"
+  ],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.30.0",
+    "axios": "^1.19.0"
+  },
+  "devDependencies": {
+    "@types/node": "^26.1.2",
+    "typescript": "^7.0.2"
+  }
+}
