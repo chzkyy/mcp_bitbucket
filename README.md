@@ -1,75 +1,77 @@
 # Bitbucket MCP Server
 
-MCP (Model Context Protocol) Server untuk Bitbucket yang memungkinkan Claude Desktop membaca repository dan source code dari Bitbucket Anda.
+A Model Context Protocol (MCP) server for Bitbucket that allows MCP-compatible clients (such as Claude Desktop) to read repositories and source code from your Bitbucket workspace.
 
-## ✨ Fitur
+## Features
 
-Server ini menyediakan tools berikut:
+This server provides the following tools:
 
-| Tool | Deskripsi |
-|------|-----------|
-| `list_workspaces` | Melihat semua workspace Bitbucket |
-| `list_repositories` | Melihat semua repository di workspace |
-| `get_repository` | Detail informasi repository |
-| `list_branches` | Melihat semua branch di repository |
-| `list_commits` | Melihat commit history |
-| `get_commit` | Detail commit tertentu |
-| `browse_directory` | Menjelajahi struktur folder repository |
-| `get_file_content` | Membaca isi file source code |
-| `search_code` | Mencari kode dalam repository |
-| `get_pull_requests` | Melihat pull requests |
-| `get_readme` | Membaca file README |
-| `get_commit_diff` | Melihat diff perubahan commit |
+| Tool | Description |
+|------|-------------|
+| `list_workspaces` | List all Bitbucket workspaces accessible by your account |
+| `list_repositories` | List repositories in a workspace |
+| `get_repository` | Get repository details |
+| `list_branches` | List branches in a repository |
+| `list_commits` | List commit history |
+| `get_commit` | Get details for a specific commit |
+| `browse_directory` | Browse repository directory structure |
+| `get_file_content` | Read file contents |
+| `search_code` | Search code in a repository |
+| `get_pull_requests` | List pull requests |
+| `get_readme` | Read a repository README |
+| `get_commit_diff` | Show commit diff |
 
-## 📋 Prasyarat
+## Prerequisites
 
-1. **Node.js** versi 18 atau lebih baru
-2. **Bitbucket Account** dengan akses ke repository
-3. **Bitbucket App Password** (bukan password login biasa)
+1. **Node.js** 18 or newer
+2. **Bitbucket account** with access to the repositories you want to read
+3. **Bitbucket App Password** (do not use your regular account password)
 
-### Cara Membuat Bitbucket App Password
+## Create a Bitbucket App Password
 
-1. Login ke [Bitbucket](https://bitbucket.org)
-2. Klik avatar Anda di pojok kanan bawah → **Personal settings**
-3. Pilih **App passwords** di menu kiri
-4. Klik **Create app password**
-5. Beri label (misal: "MCP Server")
-6. Beri permission berikut:
+1. Sign in to [Bitbucket](https://bitbucket.org)
+2. Click your avatar (bottom-right) → **Personal settings**
+3. Open **App passwords** in the left menu
+4. Click **Create app password**
+5. Add a label (for example: `MCP Server`)
+6. Grant the following permissions:
    - **Repositories**: `Read`
    - **Pull requests**: `Read`
    - **Workspace**: `Read`
-7. Klik **Create** dan **simpan password** yang muncul (hanya muncul sekali)
+7. Click **Create** and save the generated password (it is shown only once)
 
-## 🚀 Instalasi
+## Installation
 
 ```bash
-# Clone atau masuk ke folder project
+# Clone or enter the project folder
 cd d:\Projects\Pribadi\MCP_bitbucket
 
 # Install dependencies
 npm install
 
-# Build project
+# Build
 npm run build
 ```
 
-## 🔧 Konfigurasi Claude Desktop
+## Configure Claude Desktop
 
-### 1. Buka file konfigurasi Claude Desktop
+### 1) Open Claude Desktop config file
 
-**Windows:**
-```
+**Windows**
+
+```text
 %APPDATA%\Claude\claude_desktop_config.json
 ```
 
-**macOS:**
-```
+**macOS**
+
+```text
 ~/Library/Application Support/Claude/claude_desktop_config.json
 ```
 
-### 2. Tambahkan konfigurasi MCP Server
+### 2) Add MCP server configuration
 
-Tambahkan entri berikut ke file `claude_desktop_config.json`:
+Add this entry to your `claude_desktop_config.json`:
 
 ```json
 {
@@ -78,64 +80,64 @@ Tambahkan entri berikut ke file `claude_desktop_config.json`:
       "command": "node",
       "args": ["d:\\Projects\\Pribadi\\MCP_bitbucket\\dist\\index.js"],
       "env": {
-        "BITBUCKET_USERNAME": "username-bitbucket-anda",
-        "BITBUCKET_APP_PASSWORD": "app-password-anda",
-        "BITBUCKET_WORKSPACE": "workspace-slug-anda"
+        "BITBUCKET_USERNAME": "your-bitbucket-username",
+        "BITBUCKET_APP_PASSWORD": "your-app-password",
+        "BITBUCKET_WORKSPACE": "your-workspace-slug"
       }
     }
   }
 }
 ```
 
-**Catatan:**
-- Ganti `username-bitbucket-anda` dengan username Bitbucket Anda
-- Ganti `app-password-anda` dengan App Password yang Anda buat
-- Ganti `workspace-slug-anda` dengan slug workspace Anda (opsional, bisa juga di-pass sebagai parameter tool)
-- Gunakan double backslash (`\\`) untuk path di Windows
+Notes:
+- Replace `your-bitbucket-username` with your Bitbucket username
+- Replace `your-app-password` with your Bitbucket App Password
+- Replace `your-workspace-slug` with your workspace slug (optional; you can also pass workspace as a tool parameter)
+- Use double backslashes (`\\`) in Windows paths
 
-### 3. Restart Claude Desktop
+### 3) Restart Claude Desktop
 
-Tutup dan buka kembali Claude Desktop. Server akan otomatis terhubung.
+Close and reopen Claude Desktop so it can load the MCP server.
 
-## 💡 Cara Penggunaan
+## Usage Examples
 
-Setelah terhubung, Anda bisa bertanya kepada Claude seperti:
+After setup, you can ask Claude:
 
-- *"Tampilkan semua repository di workspace saya"*
-- *"Baca isi file `src/index.ts` di repository `my-project`"*
-- *"Tampilkan struktur folder repository `backend-api`"*
-- *"Cari kode yang menggunakan fungsi `validateUser` di repository `auth-service`"*
-- *"Tampilkan commit terbaru di branch `develop`"*
-- *"Baca README dari repository `frontend-app`"*
-- *"Tampilkan pull request yang masih open"*
+- "List all repositories in my workspace"
+- "Read `src/index.ts` from repository `my-project`"
+- "Show the folder structure of repository `backend-api`"
+- "Search for `validateUser` usage in repository `auth-service`"
+- "Show recent commits from branch `develop`"
+- "Read README from repository `frontend-app`"
+- "Show open pull requests"
 
-## 🛠️ Development
+## Development
 
 ```bash
 # Build
 npm run build
 
-# Jalankan manual (untuk testing)
+# Run manually (for testing)
 BITBUCKET_USERNAME=user BITBUCKET_APP_PASSWORD=pass npm start
 ```
 
-## 📁 Struktur Project
+## Project Structure
 
-```
+```text
 MCP_bitbucket/
 ├── src/
-│   ├── index.ts              # Entry point & MCP Server setup
+│   ├── index.ts              # Entry point and MCP server setup
 │   ├── bitbucket-client.ts   # Bitbucket API client
-│   └── tools.ts              # Definisi MCP tools
-├── dist/                     # Compiled JavaScript (generated)
+│   └── tools.ts              # MCP tool definitions
+├── dist/                     # Compiled JavaScript output
 ├── package.json
 ├── tsconfig.json
 └── README.md
 ```
 
-## 🔒 Keamanan
+## Security
 
-- App Password disimpan dalam environment variable, bukan di code
-- App Password hanya punya akses baca (read-only)
-- Semua komunikasi menggunakan HTTPS
-- Jangan commit App Password ke repository
+- Store App Password in environment variables, not in source code
+- Use read-only permissions whenever possible
+- All communication uses HTTPS
+- Never commit credentials into the repository
